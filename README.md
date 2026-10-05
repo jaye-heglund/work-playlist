@@ -5,11 +5,20 @@ youtube-dl was taken down, so I'm now using yt-dlp. This program is easier to us
 The main reason to do this is for archival purposes. Sometimes videos get taken down from Youtube for copyright reasons, and some of my old playlists are noticeably smaller than they used to be because of this.
 
 ```
+# Download video audio
+# Run with the -x option to download the audio with no video. My preferred option to save space.
+# Adding the sleep interval can prevent issues w/ getting API calls throttled
 
-## Other download options
+yt-dlp -x --download-archive archive.txt https://www.youtube.com/playlist?list=PLylfBmdQ1h3aIwXc3-QGiUxzQ2W14gdKS --check-formats --rm-cache-dir -4 --sleep-interval 2 --max-sleep-interval 2 --sleep-requests 1 --cookies cookies.txt
 
-# Run with the -x option to download the audio with no video. My preferred option to save space. Here, -S searches for the m4a extension since m4a is a nice, high quality audio format.
-yt-dlp -x PLAYLIST_URL -S res,ext:m4a
+# to avoid "sign in to confirm you're not a bot"
+- open a private browser window
+- open https://www.youtube.com/robots.txt
+- use the "Get cookies from browser LOCALLY" extension to download the cookies from that session
+- rename the file to cookies.txt and move it to the root of your playlist
+- add this option to your yt-dlp command: --cookies cookies.txt
+
+# if that doesn't work, try kicking off your download again in a day or two
 
 # To download videos from your work playlist, just run this
 yt-dlp https://www.youtube.com/playlist?list=PLylfBmdQ1h3aIwXc3-QGiUxzQ2W14gdKS -S "res:720,ext:mp4" --recode mp4 --check-formats --rm-cache-dir -4
