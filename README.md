@@ -5,16 +5,17 @@ youtube-dl was taken down, so I'm now using yt-dlp. This program is easier to us
 The main reason to do this is for archival purposes. Sometimes videos get taken down from Youtube for copyright reasons, and some of my old playlists are noticeably smaller than they used to be because of this.
 
 ```
+
+## Other download options
+
+# Run with the -x option to download the audio with no video. My preferred option to save space. Here, -S searches for the m4a extension since m4a is a nice, high quality audio format.
+yt-dlp -x PLAYLIST_URL -S res,ext:m4a
+
 # To download videos from your work playlist, just run this
 yt-dlp https://www.youtube.com/playlist?list=PLylfBmdQ1h3aIwXc3-QGiUxzQ2W14gdKS -S "res:720,ext:mp4" --recode mp4 --check-formats --rm-cache-dir -4
 
-# lower video quality, same audio quality which is what really matters
-yt-dlp https://www.youtube.com/playlist?list=PLylfBmdQ1h3aIwXc3-QGiUxzQ2W14gdKS -S "res:480,ext:mp4" --recode mp4 --check-formats --rm-cache-dir -4
-
-# download stuff in parallel
-yt-dlp -J --flat-playlist https://www.youtube.com/playlist?list=PLylfBmdQ1h3aIwXc3-QGiUxzQ2W14gdKS | jq -r '.entries[] | .url' | parallel -j8 --bar "yt-dlp -N2 -S 'res:480,ext:mp4' --recode mp4 --check-formats --rm-cache-dir -4 {}"
-
-
+# Run without the -S option if you want to download the video file with the best-available quality
+yt-dlp PLAYLIST_URL
 
 # This downloads them in 720p quality. -S searches for videos that fit a few parameters
 ## res:720 - downloads the video with the largest resolution no better than 720p or the video with the next-smallest resolution above 720p if 720p is not available.
@@ -23,11 +24,6 @@ yt-dlp -J --flat-playlist https://www.youtube.com/playlist?list=PLylfBmdQ1h3aIwX
 
 # If you want a standard format for videos after downloading, you can process by copying them to mp4
 # since mkv and webm are just video containers, you use -c copy to very quickly change th e format without any additional video encoding or processing (which can take around 1 minute per video)
-
-# open cmd (not powershell!), then run these:
-# you can run them in separate terminals too
-for %i in (*.mkv) do ffmpeg -i "%i" -c copy "%~ni.mp4"
-for %i in (*.webm) do ffmpeg -i "%i" -c copy "%~ni.mp4"
 ```
 
 ## Handling common errors
@@ -42,15 +38,4 @@ for %i in (*.webm) do ffmpeg -i "%i" -c copy "%~ni.mp4"
 # There are also options to do something with cookies from a private browser window (to prevent your personal YT from being associated with the download processes), but I don't really get how that works.
 # https://www.reddit.com/r/youtubedl/comments/1rlj3xv/cookies_for_ytdlp/
 ```
-
-## Other download options
-
-```
-# Run without the -S option if you want to download the video file with the best-available quality
-yt-dlp PLAYLIST_URL
-
-# Run with the -x option to download the audio with no video. Here, -S searches for the m4a  extension since m4a is a nice, high quality audio format.
-yt-dlp -x PLAYLIST_URL -S res,ext:m4a
-```
-
 
